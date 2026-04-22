@@ -46,6 +46,7 @@ import { AddProviderDropdown } from "./ai/AddProviderDropdown";
 import { CodexConnectionCard } from "./ai/CodexConnectionCard";
 import { ClaudeCodeCard } from "./ai/ClaudeCodeCard";
 import { CopilotCliCard } from "./ai/CopilotCliCard";
+import { GeminiCliCard } from "./ai/GeminiCliCard";
 import { SafetySettings } from "./ai/SafetySettings";
 import { WebSearchSettings } from "./ai/WebSearchSettings";
 
@@ -177,18 +178,24 @@ const SettingsAITab: React.FC<SettingsAITabProps> = ({
     codex: string;
     claude: string;
     copilot: string;
+    gemini: string;
   } | null>(null);
   if (!initialManagedPathsRef.current) {
     initialManagedPathsRef.current = {
       codex: getManagedAgentStoredPath(externalAgents, "codex") ?? "",
       claude: getManagedAgentStoredPath(externalAgents, "claude") ?? "",
       copilot: getManagedAgentStoredPath(externalAgents, "copilot") ?? "",
+      gemini: getManagedAgentStoredPath(externalAgents, "gemini") ?? "",
     };
   }
 
   const [copilotPathInfo, setCopilotPathInfo] = useState<AgentPathInfo | null>(null);
   const [copilotCustomPath, setCopilotCustomPath] = useState("");
   const [isResolvingCopilot, setIsResolvingCopilot] = useState(false);
+
+  const [geminiPathInfo, setGeminiPathInfo] = useState<AgentPathInfo | null>(null);
+  const [geminiCustomPath, setGeminiCustomPath] = useState("");
+  const [isResolvingGemini, setIsResolvingGemini] = useState(false);
   const [userSkillsStatus, setUserSkillsStatus] = useState<UserSkillsStatusResult | null>(null);
   const [isLoadingUserSkills, setIsLoadingUserSkills] = useState(false);
 
@@ -207,12 +214,16 @@ const SettingsAITab: React.FC<SettingsAITabProps> = ({
       ? setCodexPathInfo
       : agentKey === "claude"
         ? setClaudePathInfo
-        : setCopilotPathInfo;
+        : agentKey === "copilot"
+          ? setCopilotPathInfo
+          : setGeminiPathInfo;
     const setResolving = agentKey === "codex"
       ? setIsResolvingCodex
       : agentKey === "claude"
         ? setIsResolvingClaude
-        : setIsResolvingCopilot;
+        : agentKey === "copilot"
+          ? setIsResolvingCopilot
+          : setIsResolvingGemini;
 
     setResolving(true);
     try {
@@ -253,6 +264,7 @@ const SettingsAITab: React.FC<SettingsAITabProps> = ({
     void resolveAgentPath("codex", initialManagedPathsRef.current?.codex ?? "");
     void resolveAgentPath("claude", initialManagedPathsRef.current?.claude ?? "");
     void resolveAgentPath("copilot", initialManagedPathsRef.current?.copilot ?? "");
+    void resolveAgentPath("gemini", initialManagedPathsRef.current?.gemini ?? "");
   }, [resolveAgentPath]);
 
   // Validate a custom path for an agent
@@ -261,9 +273,11 @@ const SettingsAITab: React.FC<SettingsAITabProps> = ({
       ? codexCustomPath
       : agentKey === "claude"
         ? claudeCustomPath
-        : copilotCustomPath;
+        : agentKey === "copilot"
+          ? copilotCustomPath
+          : geminiCustomPath;
     await resolveAgentPath(agentKey, customPath);
-  }, [claudeCustomPath, codexCustomPath, copilotCustomPath, resolveAgentPath]);
+  }, [claudeCustomPath, codexCustomPath, copilotCustomPath, geminiCustomPath, resolveAgentPath]);
 
   // Add a new provider from preset
   const handleAddProvider = useCallback(
@@ -610,6 +624,22 @@ const SettingsAITab: React.FC<SettingsAITabProps> = ({
               customPath={copilotCustomPath}
               onCustomPathChange={setCopilotCustomPath}
               onRecheckPath={() => void handleCheckCustomPath("copilot")}
+            />
+          </div>
+
+          {/* -- Gemini CLI Section -- */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <ProviderIconBadge providerId="gemini" size="sm" />
+              <h3 className="text-base font-medium">{t('ai.gemini.title')}</h3>
+            </div>
+
+            <GeminiCliCard
+              pathInfo={geminiPathInfo}
+              isResolvingPath={isResolvingGemini}
+              customPath={geminiCustomPath}
+              onCustomPathChange={setGeminiCustomPath}
+              onRecheckPath={() => void handleCheckCustomPath("gemini")}
             />
           </div>
 
