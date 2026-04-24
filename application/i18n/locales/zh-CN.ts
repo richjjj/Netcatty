@@ -1869,6 +1869,17 @@ const zhCN: Messages = {
   'ai.copilot.customPathPlaceholder': '例如 /usr/local/bin/copilot',
   'ai.copilot.check': '检查',
 
+  // AI Gemini CLI
+  'ai.gemini.title': 'Gemini CLI',
+  'ai.gemini.description': '通过 ACP over stdio（`gemini --experimental-acp`）接入 Gemini CLI。检测到后即可作为外部编程 Agent 使用。',
+  'ai.gemini.detecting': '检测中...',
+  'ai.gemini.detected': '已检测到',
+  'ai.gemini.notFound': '未找到',
+  'ai.gemini.path': '路径：',
+  'ai.gemini.notFoundHint': '在 PATH 中未找到 gemini。请安装或在下方指定可执行文件路径。',
+  'ai.gemini.customPathPlaceholder': '例如 /usr/local/bin/gemini',
+  'ai.gemini.check': '检查',
+
   // AI Default Agent
   'ai.defaultAgent': '默认 Agent',
   'ai.defaultAgent.description': '创建新 AI 会话时使用的 Agent',

@@ -1860,6 +1860,17 @@ const en: Messages = {
   'ai.copilot.customPathPlaceholder': 'e.g. /usr/local/bin/copilot',
   'ai.copilot.check': 'Check',
 
+  // AI Gemini CLI
+  'ai.gemini.title': 'Gemini CLI',
+  'ai.gemini.description': 'Uses Gemini CLI via ACP over stdio (`gemini --experimental-acp`). Once detected, it can be selected as an external coding agent.',
+  'ai.gemini.detecting': 'Detecting...',
+  'ai.gemini.detected': 'Detected',
+  'ai.gemini.notFound': 'Not found',
+  'ai.gemini.path': 'Path:',
+  'ai.gemini.notFoundHint': 'Could not find gemini in PATH. Install it or specify the executable path below.',
+  'ai.gemini.customPathPlaceholder': 'e.g. /usr/local/bin/gemini',
+  'ai.gemini.check': 'Check',
+
   // AI Default Agent
   'ai.defaultAgent': 'Default Agent',
   'ai.defaultAgent.description': 'Agent to use when starting a new AI session',
